@@ -1,20 +1,20 @@
 import 'package:get_storage/get_storage.dart';
-import 'package:todo_fui/data/services/storage_service.dart';
+import 'package:todo_fui/data/services/storage/storage_service.dart';
 
 /// {@template get_storage_service}
 /// Implementation of StorageService for working with GetStorage.
 /// {@endtemplate}
 final class GetStorageService implements StorageService {
-  static GetStorageService? _instance;
+  /// Flag to check if GetStorage is initialized.
+  static bool _isInitialized = false;
 
-  /// Initialize the singleton GetStorageService.
-  /// Returns the StorageService instance.
+  /// Initialize GetStorage.
   static Future<StorageService> init() async {
-    if (_instance == null) {
+    if (!_isInitialized) {
       await GetStorage.init();
-      _instance = GetStorageService._();
+      _isInitialized = true;
     }
-    return _instance!;
+    return GetStorageService._();
   }
 
   /// {@macro get_storage_service}
