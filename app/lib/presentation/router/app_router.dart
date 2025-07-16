@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_fui/domain/repositories/auth/auth_repository.dart';
+import 'package:todo_fui/domain/usecases/auth/check_is_sign_in_use_case.dart';
 import 'package:todo_fui/presentation/pages.dart';
+import 'package:todo_fui/presentation/pages/login/login_providers.dart';
 
 import 'app_route.dart';
 
@@ -34,8 +35,8 @@ abstract final class AppRouter {
     if (_publicRoutes.any((route) => route.path == state.uri.path)) {
       return null;
     }
-    final authRepository = context.read<AuthRepository>();
-    final isLoggedIn = await authRepository.checkIsSignIn();
+    final checkIsSignInUseCase = context.read<CheckIsSignInUseCase>();
+    final isLoggedIn = await checkIsSignInUseCase.call();
     return isLoggedIn ? null : AppRoute.login.path;
   }
 
@@ -55,7 +56,7 @@ abstract final class AppRouter {
         GoRoute(
           path: AppRoute.login.path,
           name: AppRoute.login.name,
-          builder: (context, state) => const LoginPage(),
+          builder: (context, state) => const LoginProviders(child: LoginPage()),
         ),
         GoRoute(
           path: AppRoute.registration.path,
