@@ -1,4 +1,4 @@
-import 'package:todo_fui/data/services/storage_service.dart';
+import 'package:todo_fui/data/services/storage/storage_service.dart';
 import 'package:todo_fui/domain/repositories.dart';
 
 /// {@template local_settings_repository}
