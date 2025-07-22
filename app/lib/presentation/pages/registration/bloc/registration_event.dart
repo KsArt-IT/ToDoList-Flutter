@@ -25,4 +25,13 @@ final class PasswordChanged extends RegistrationEvent {
   List<Object?> get props => [password];
 }
 
-final class RegistrationEventRequest extends RegistrationEvent {}
+final class PasswordConfirmChanged extends RegistrationEvent {
+  final String password;
+
+  const PasswordConfirmChanged({required this.password});
+
+  @override
+  List<Object?> get props => [password];
+}
+
+final class RegistrationRequest extends RegistrationEvent {}
