@@ -4,14 +4,16 @@ final class RegistrationState extends Equatable {
   final StateStatus status;
   final Email email;
   final Password password;
-  final bool isValid;
+  final Password passwordConfirm;
   final String? errorMessage;
+
+  bool get isValid => email.isValid && password.isValid && password == passwordConfirm;
 
   const RegistrationState({
     this.status = StateStatus.initial,
     this.email = const Email(value: ''),
     this.password = const Password(value: ''),
-    this.isValid = false,
+    this.passwordConfirm = const Password(value: ''),
     this.errorMessage,
   });
 
@@ -19,18 +21,18 @@ final class RegistrationState extends Equatable {
     StateStatus? status,
     Email? email,
     Password? password,
-    bool? isValid,
+    Password? passwordConfirm,
     String? errorMessage,
   }) {
     return RegistrationState(
       status: status ?? this.status,
       email: email ?? this.email,
       password: password ?? this.password,
-      isValid: isValid ?? this.isValid,
+      passwordConfirm: passwordConfirm ?? this.passwordConfirm,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
   @override
-  List<Object?> get props => [status, email, password, isValid, errorMessage];
+  List<Object?> get props => [status, email, password, passwordConfirm, errorMessage];
 }
