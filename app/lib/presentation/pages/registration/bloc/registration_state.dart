@@ -7,7 +7,7 @@ final class RegistrationState extends Equatable {
   final Password passwordConfirm;
   final String? errorMessage;
 
-  bool get isValid => email.isValid && password.isValid && password == passwordConfirm;
+  bool get isValid => email.isValid && password.isValid && password.value == passwordConfirm.value;
 
   const RegistrationState({
     this.status = StateStatus.initial,
