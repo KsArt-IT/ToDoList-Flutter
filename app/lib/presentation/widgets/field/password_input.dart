@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:todo_fui/domain/entities/password.dart';
 
 class PasswordInput extends StatefulWidget {
-  const PasswordInput({this.focusNode, this.onChanged, super.key});
+  const PasswordInput({
+    this.labelText,
+    this.helperText,
+    this.focusNode,
+    this.validator,
+    this.onChanged,
+    super.key,
+  });
 
+  final String? labelText;
+  final String? helperText;
   final FocusNode? focusNode;
+  final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onChanged;
 
   @override
@@ -31,12 +41,14 @@ class _PasswordInputState extends State<PasswordInput> {
       obscureText: _obscure,
       autocorrect: false,
       autovalidateMode: AutovalidateMode.always,
-      validator: (value) {
-        if (value == null || value.isEmpty) return null;
-        return Password.validate(value)
-            ? null
-            : '''Password must be at least 8 characters and contain at least one letter and number''';
-      },
+      validator:
+          widget.validator ??
+          (value) {
+            if (value == null || value.isEmpty) return null;
+            return Password.validate(value)
+                ? null
+                : '''Password must be at least 8 characters and contain at least one letter and number''';
+          },
       decoration: InputDecoration(
         icon: const Icon(Icons.lock),
         suffixIcon: GestureDetector(
@@ -49,9 +61,10 @@ class _PasswordInputState extends State<PasswordInput> {
         ),
         filled: true,
         helperText:
+            widget.helperText ??
             '''Password should be at least 8 characters with at least one letter and number''',
         helperMaxLines: 2,
-        labelText: 'Password',
+        labelText: widget.labelText ?? 'Password',
         errorMaxLines: 2,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
