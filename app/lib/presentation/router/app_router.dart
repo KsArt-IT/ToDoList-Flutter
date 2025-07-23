@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_fui/domain/usecases/auth/check_is_sign_in_use_case.dart';
 import 'package:todo_fui/presentation/pages.dart';
 import 'package:todo_fui/presentation/pages/login/login_providers.dart';
+import 'package:todo_fui/presentation/pages/registration/registration_providers.dart';
 
 import 'app_route.dart';
 
@@ -21,22 +22,15 @@ abstract final class AppRouter {
   static String get initialLocation => AppRoute.home.path;
 
   /// Публичные маршруты, которые не требуют авторизации
-  static const _publicRoutes = [
-    AppRoute.login,
-    AppRoute.registration,
-    AppRoute.resetPassword,
-  ];
+  static const _publicRoutes = [AppRoute.login, AppRoute.registration, AppRoute.resetPassword];
 
   /// Метод для перенаправления на маршрут авторизации, если пользователь не авторизован
-  static Future<String?> _redirect(
-    BuildContext context,
-    GoRouterState state,
-  ) async {
+  static Future<String?> _redirect(BuildContext context, GoRouterState state) async {
     if (_publicRoutes.any((route) => route.path == state.uri.path)) {
       return null;
     }
     final checkIsSignInUseCase = context.read<CheckIsSignInUseCase>();
-    final isLoggedIn = await checkIsSignInUseCase.call();
+    final isLoggedIn = await checkIsSignInUseCase();
     return isLoggedIn ? null : AppRoute.login.path;
   }
 
@@ -45,9 +39,9 @@ abstract final class AppRouter {
     return GoRouter(
       navigatorKey: rootNavigatorKey,
       redirect: _redirect,
-      initialLocation:
-          WidgetsBinding.instance.platformDispatcher.defaultRouteName,
+      initialLocation: WidgetsBinding.instance.platformDispatcher.defaultRouteName,
       routes: [
+        GoRoute(path: '/', redirect: (context, state) => initialLocation),
         GoRoute(
           path: AppRoute.splash.path,
           name: AppRoute.splash.name,
@@ -61,7 +55,7 @@ abstract final class AppRouter {
         GoRoute(
           path: AppRoute.registration.path,
           name: AppRoute.registration.name,
-          builder: (context, state) => const RegistrationPage(),
+          builder: (context, state) => const RegistrationProviders(child: RegistrationPage()),
         ),
         GoRoute(
           path: AppRoute.resetPassword.path,
