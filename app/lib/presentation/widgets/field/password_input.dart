@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_fui/domain/entities/password.dart';
+import 'package:todo_fui/presentation/localization/localization_context_ext.dart';
 
 class PasswordInput extends StatefulWidget {
   const PasswordInput({
@@ -47,7 +48,7 @@ class _PasswordInputState extends State<PasswordInput> {
             if (value == null || value.isEmpty) return null;
             return Password.validate(value)
                 ? null
-                : '''Password must be at least 8 characters and contain at least one letter and number''';
+                : context.l10n.passwordNotValid;
           },
       decoration: InputDecoration(
         icon: const Icon(Icons.lock),
@@ -60,11 +61,9 @@ class _PasswordInputState extends State<PasswordInput> {
           ),
         ),
         filled: true,
-        helperText:
-            widget.helperText ??
-            '''Password should be at least 8 characters with at least one letter and number''',
+        helperText: widget.helperText ?? context.l10n.passwordHelperText,
         helperMaxLines: 2,
-        labelText: widget.labelText ?? 'Password',
+        labelText: widget.labelText ?? context.l10n.password,
         errorMaxLines: 2,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
