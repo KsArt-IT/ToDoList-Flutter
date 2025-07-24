@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_fui/domain/entities/email.dart';
+import 'package:todo_fui/presentation/localization/localization_context_ext.dart';
 
 class EmailInput extends StatelessWidget {
   const EmailInput({this.focusNode, this.onChanged, super.key});
@@ -20,12 +21,12 @@ class EmailInput extends StatelessWidget {
       autovalidateMode: AutovalidateMode.always,
       validator: (value) {
         if (value == null || value.isEmpty) return null;
-        return Email.validate(value) ? null : 'Please ensure the email entered is valid';
+        return Email.validate(value) ? null : context.l10n.emailNotValid;
       },
       decoration: InputDecoration(
         icon: const Icon(Icons.email),
-        labelText: 'Email',
-        helperText: 'A complete, valid email e.g. joe@gmail.com',
+        labelText: context.l10n.email,
+        helperText: context.l10n.emailValid,
         filled: true,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
