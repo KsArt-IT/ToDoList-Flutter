@@ -61,9 +61,9 @@ class _PasswordInputState extends State<PasswordInput> {
           ),
         ),
         filled: true,
-        helperText: widget.helperText ?? context.l10n.passwordHelperText,
+        helperText: widget.helperText ?? context.l10n.passwordInputHelperText,
         helperMaxLines: 2,
-        labelText: widget.labelText ?? context.l10n.password,
+        labelText: widget.labelText ?? context.l10n.passwordInput,
         errorMaxLines: 2,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
