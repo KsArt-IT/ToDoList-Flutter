@@ -25,8 +25,8 @@ class EmailInput extends StatelessWidget {
       },
       decoration: InputDecoration(
         icon: const Icon(Icons.email),
-        labelText: context.l10n.email,
-        helperText: context.l10n.emailValid,
+        labelText: context.l10n.emailInput,
+        helperText: context.l10n.emailInputHelperText,
         filled: true,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
