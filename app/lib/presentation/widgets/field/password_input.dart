@@ -8,6 +8,7 @@ class PasswordInput extends StatefulWidget {
     this.helperText,
     this.focusNode,
     this.validator,
+    this.textInputAction = TextInputAction.next,
     this.onChanged,
     super.key,
   });
@@ -16,6 +17,7 @@ class PasswordInput extends StatefulWidget {
   final String? helperText;
   final FocusNode? focusNode;
   final FormFieldValidator<String>? validator;
+  final TextInputAction textInputAction;
   final ValueChanged<String>? onChanged;
 
   @override
@@ -38,7 +40,7 @@ class _PasswordInputState extends State<PasswordInput> {
     return TextFormField(
       focusNode: widget.focusNode,
       onChanged: widget.onChanged,
-      textInputAction: TextInputAction.done,
+      textInputAction: widget.textInputAction,
       obscureText: _obscure,
       autocorrect: false,
       autovalidateMode: AutovalidateMode.always,
