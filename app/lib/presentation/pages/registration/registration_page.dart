@@ -17,13 +17,17 @@ class RegistrationPage extends StatelessWidget {
     debugPrint("RegistrationPage::build: ok");
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(context.l10n.registration),
+        centerTitle: true,
+      ),
       body: BlocListener<RegistrationBloc, RegistrationState>(
         listener: (context, state) async {
           if (state.status == StateStatus.error) {
             ScaffoldMessenger.of(context)
               ..clearSnackBars()
               ..showSnackBar(
-                SnackBar(content: Text(state.errorMessage ?? context.l10n.registrationFailed)),
+                SnackBar(content: Text(state.errorMessage ?? context.l10n.error)),
               );
           }
           if (state.status == StateStatus.success) {
@@ -39,8 +43,6 @@ class RegistrationPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(context.l10n.registrationPage, textAlign: TextAlign.center),
-                const SizedBox(height: 8),
                 Image.asset('assets/images/loginLogo.png', width: 100, height: 100),
                 const SizedBox(height: 8),
                 EmailInput(
@@ -49,6 +51,7 @@ class RegistrationPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 PasswordInput(
+                  textInputAction: TextInputAction.done,
                   onChanged: (value) =>
                       context.read<RegistrationBloc>().add(PasswordChanged(password: value)),
                 ),
