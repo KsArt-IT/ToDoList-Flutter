@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_fui/domain/entities/state_status.dart';
+import 'package:todo_fui/presentation/localization/localization_context_ext.dart';
 import 'package:todo_fui/presentation/pages/login/bloc/login_bloc.dart';
 import 'package:todo_fui/presentation/pages/login/widgets/login_button.dart';
 import 'package:todo_fui/presentation/router/app_route.dart';
@@ -56,12 +57,16 @@ class _LoginPageState extends State<LoginPage> {
     debugPrint("LoginPage::build: ok");
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(context.l10n.login),
+        centerTitle: true,
+      ),
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state.status == StateStatus.error) {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(SnackBar(content: Text(state.errorMessage ?? 'Login failed')));
+            ).showSnackBar(SnackBar(content: Text(state.errorMessage ?? context.l10n.error)));
           }
           if (state.status == StateStatus.success) {
             context.go(AppRouter.initialLocation, extra: state.user);
@@ -76,8 +81,6 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text('Login Page', textAlign: TextAlign.center),
-                const SizedBox(height: 8),
                 Image.asset('assets/images/loginLogo.png', width: 100, height: 100),
                 const SizedBox(height: 8),
                 EmailInput(
@@ -107,12 +110,12 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     TextButton(
                       onPressed: () => context.push(AppRoute.resetPassword.path),
-                      child: const Text('Forgot Password?'),
+                      child: Text(context.l10n.forgotPassword),
                     ),
                     const SizedBox(width: 16),
                     TextButton(
                       onPressed: () => context.push(AppRoute.registration.path),
-                      child: const Text('Registration'),
+                      child: Text(context.l10n.registration),
                     ),
                   ],
                 ),
