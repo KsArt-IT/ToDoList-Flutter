@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:todo_fui/core/extension/context_ext.dart';
 import 'package:todo_fui/domain/entities/state_status.dart';
 import 'package:todo_fui/presentation/localization/localization_context_ext.dart';
 import 'package:todo_fui/presentation/pages/login/bloc/login_bloc.dart';
@@ -64,9 +65,7 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state.status == StateStatus.error) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.errorMessage ?? context.l10n.error)));
+            context.showSnackBar(state.errorMessage ?? context.l10n.error);
           }
           if (state.status == StateStatus.success) {
             context.go(AppRouter.initialLocation, extra: state.user);
@@ -74,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             physics: const NeverScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
