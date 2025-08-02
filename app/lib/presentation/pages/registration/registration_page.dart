@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_fui/core/extension/context_ext.dart';
 import 'package:todo_fui/domain/entities/state_status.dart';
 import 'package:todo_fui/presentation/localization/localization_context_ext.dart';
 import 'package:todo_fui/presentation/pages/registration/bloc/registration_bloc.dart';
@@ -24,11 +25,7 @@ class RegistrationPage extends StatelessWidget {
       body: BlocListener<RegistrationBloc, RegistrationState>(
         listener: (context, state) async {
           if (state.status == StateStatus.error) {
-            ScaffoldMessenger.of(context)
-              ..clearSnackBars()
-              ..showSnackBar(
-                SnackBar(content: Text(state.errorMessage ?? context.l10n.error)),
-              );
+            context.showSnackBar(state.errorMessage ?? context.l10n.error);
           }
           if (state.status == StateStatus.success) {
             context.go(AppRouter.initialLocation);
@@ -36,7 +33,7 @@ class RegistrationPage extends StatelessWidget {
         },
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             physics: const NeverScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
