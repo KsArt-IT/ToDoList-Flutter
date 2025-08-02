@@ -5,6 +5,7 @@ import 'package:todo_fui/domain/usecases/auth/check_is_sign_in_use_case.dart';
 import 'package:todo_fui/presentation/pages.dart';
 import 'package:todo_fui/presentation/pages/login/login_providers.dart';
 import 'package:todo_fui/presentation/pages/registration/registration_providers.dart';
+import 'package:todo_fui/presentation/pages/reset_password/reset_password_providers.dart';
 
 import 'app_route.dart';
 
@@ -60,7 +61,7 @@ abstract final class AppRouter {
         GoRoute(
           path: AppRoute.resetPassword.path,
           name: AppRoute.resetPassword.name,
-          builder: (context, state) => const ResetPasswordPage(),
+          builder: (context, state) => const ResetPasswordProviders(child: ResetPasswordPage()),
         ),
         GoRoute(
           path: AppRoute.home.path,
