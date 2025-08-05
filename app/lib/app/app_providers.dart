@@ -38,6 +38,7 @@ final class AppProviders extends StatelessWidget {
         ), // Провайдер для локализации
         // Провайдер для репозитория авторизации
         Provider.value(value: diContainer.repositories.authRepository),
+        Provider.value(value: diContainer.services.googleSignIn),
         // Провайдеры для usecases
         Provider.value(value: CheckIsSignInUseCase(diContainer.repositories.authRepository)),
         Provider.value(value: GetCurrentUserUseCase(diContainer.repositories.authRepository)),
