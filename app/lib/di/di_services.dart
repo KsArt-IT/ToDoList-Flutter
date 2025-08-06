@@ -40,7 +40,14 @@ final class DiServices {
       debugPrint('DiServices:: init GoogleSignIn');
       // Получить экземпляр GoogleSignIn
       googleSignIn = GoogleSignIn.instance;
-      unawaited(googleSignIn.initialize());
+      await googleSignIn.initialize(
+          // hostedDomain: 'pro.ksart.todoFui',
+          // clientId: '813153919918-q2dr11si6mchs64qo3te1vp38s7lghas.apps.googleusercontent.com'
+          );
+      // unawaited(googleSignIn.initialize(
+      //     // hostedDomain: 'pro.ksart.todoFui',
+      //     clientId: '813153919918-q2dr11si6mchs64qo3te1vp38s7lghas.apps.googleusercontent.com'
+      //     ));
     } on Object catch (error, stackTrace) {
       debugPrint('DiServices:: init GoogleSignIn error: $error');
       return;
