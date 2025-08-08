@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in_all_platforms/google_sign_in_all_platforms.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:todo_fui/data/mappers/model_to_domain.dart';
 import 'package:todo_fui/domain/entities.dart';
+import 'package:todo_fui/domain/entities/result.dart';
 import 'package:todo_fui/domain/repositories.dart';
 
 /// {@template firebase_auth_repository}
@@ -8,142 +10,141 @@ import 'package:todo_fui/domain/repositories.dart';
 /// {@endtemplate}
 final class FirebaseAuthRepository implements AuthRepository {
   /// {@macro firebase_auth_repository}
-  FirebaseAuthRepository({required FirebaseAuth firebaseAuth})
-    : _firebaseAuth = firebaseAuth;
+  FirebaseAuthRepository({required FirebaseAuth firebaseAuth, required GoogleSignIn googleSignIn})
+    : _firebaseAuth = firebaseAuth,
+      _googleSignIn = googleSignIn;
 
   final FirebaseAuth _firebaseAuth;
+  final GoogleSignIn _googleSignIn;
 
   @override
   Future<bool> checkIsSignIn() async {
     try {
       return _firebaseAuth.currentUser != null;
     } catch (e) {
-      // Handle error appropriately, e.g., log it
       return false;
     }
   }
 
   @override
-  Future<UserEntity?> getCurrentUser() async {
+  Future<Result<UserEntity>> getCurrentUser() async {
     try {
-      if (_firebaseAuth.currentUser == null) return null;
-
-      return UserEntity(
-        id: _firebaseAuth.currentUser!.uid,
-        email: _firebaseAuth.currentUser!.email ?? '',
-        name: _firebaseAuth.currentUser!.displayName ?? '',
-        avatar: _firebaseAuth.currentUser!.photoURL ?? '',
-      );
+      if (_firebaseAuth.currentUser == null) {
+        return Result.failure(Exception('User not found'));
+      }
+      return Result.success(_firebaseAuth.currentUser!.toDomain());
     } catch (e) {
-      // Handle error appropriately, e.g., log it
-      return null;
+      return Result.failure(Exception(e.toString()));
     }
   }
 
   @override
-  Future<void> sendPasswordResetEmail(String email) async {
+  Future<Result<void>> sendPasswordResetEmail(String email) async {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return Result.success(null);
     } catch (e) {
-      // Handle error appropriately, e.g., log it or throw a custom exception
-      rethrow;
+      return Result.failure(Exception(e.toString()));
     }
   }
 
   @override
-  Future<UserEntity?> signInWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  Future<Result<UserEntity>> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
     try {
       final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      if (userCredential.user == null) return null;
-
-      return UserEntity(
-        id: userCredential.user!.uid,
-        email: userCredential.user!.email ?? '',
-        name: userCredential.user!.displayName ?? '',
-        avatar: userCredential.user!.photoURL ?? '',
-      );
+      if (userCredential.user == null) {
+        return Result.failure(Exception('User not found'));
+      }
+      return Result.success(userCredential.user!.toDomain());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        throw Exception('No user found for that email.');
+        return Result.failure(Exception('No user found for that email.'));
       } else if (e.code == 'wrong-password') {
-        throw Exception('Wrong password provided for that user.');
+        return Result.failure(Exception('Wrong password provided for that user.'));
       }
-      rethrow;
+      return Result.failure(Exception(e.toString()));
     } catch (e) {
-      // Handle other errors
-      rethrow;
+      return Result.failure(Exception(e.toString()));
     }
   }
 
   @override
-  Future<UserEntity?> signInWithGoogle() async {
+  Future<Result<UserEntity>> signInWithGoogle() async {
+    print("-----------------");
+    print("signInWithGoogle");
     try {
-      // Trigger the authentication flow
-      final googleSignIn = await GoogleSignIn().signIn();
-      if (googleSignIn == null) return null;
-
-      // Create a new credential
-      final OAuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignIn.accessToken,
-        idToken: googleSignIn.idToken,
-      );
-
-      // Sign in with the credential from the Google user
-      final userCredential = await _firebaseAuth.signInWithCredential(
-        credential,
-      );
-      if (userCredential.user == null) return null;
-
-      return UserEntity(
-        id: userCredential.user!.uid,
-        email: userCredential.user!.email ?? '',
-        name: userCredential.user!.displayName ?? '',
-        avatar: userCredential.user!.photoURL ?? '',
-      );
+      const List<String> scopes = <String>['https://www.googleapis.com/auth/contacts.readonly'];
+      // Запустить поток авторизации Google
+      await signOut();
+      // Запускаем процесс входа через Google
+      await _googleSignIn.initialize();
+          // hostedDomain: 'pro.ksart.todoFui',
+          // clientId: '813153919918-q2dr11si6mchs64qo3te1vp38s7lghas.apps.googleusercontent.com'
+          // );
+      final googleUser = await _googleSignIn.authenticate(scopeHint: ['email']);
+      // final googleUser = await _googleSignIn.attemptLightweightAuthentication();
+      print("signInWithGoogle Запустить поток авторизации Google");
+      if (googleUser == null) {
+        return Result.failure(Exception('Google sign in aborted'));
+      }
+      // Получить idToken
+      print("-----------------");
+      print("Получить idToken");
+      // final googleUser = await _googleSignIn.authenticate();
+      final googleAuth = googleUser.authentication;
+      print("Получить idToken: $googleAuth");
+      if (googleAuth.idToken == null) {
+        return Result.failure(Exception('Google sign in failed: no idToken'));
+      }
+      // Создать credential для Firebase только с idToken
+      print("Создать credential для Firebase только с idToken");
+      final authCredential = GoogleAuthProvider.credential(idToken: googleAuth.idToken);
+      // Войти в Firebase
+      print("Войти в Firebase");
+      final userCredential = await _firebaseAuth.signInWithCredential(authCredential);
+      print("Войти в Firebase: ${userCredential.user}");
+      if (userCredential.user == null) {
+        return Result.failure(Exception('User not found'));
+      }
+      return Result.success(userCredential.user!.toDomain());
     } catch (e) {
-      // Handle error appropriately, e.g., log it or throw a custom exception
-      rethrow;
+      return Result.failure(Exception(e.toString()));
     }
   }
 
   @override
-  Future<void> signOut() async {
+  Future<Result<void>> signOut() async {
     try {
-      await GoogleSignIn().signOut();
+      await _googleSignIn.signOut();
       await _firebaseAuth.signOut();
+      return Result.success(null);
     } catch (e) {
-      // Handle error appropriately, e.g., log it or throw a custom exception
-      rethrow;
+      return Result.failure(Exception(e.toString()));
     }
   }
 
   @override
-  Future<UserEntity?> signUpWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  Future<Result<UserEntity>> signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
     try {
       final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      if (userCredential.user == null) return null;
-
-      return UserEntity(
-        id: userCredential.user!.uid,
-        email: userCredential.user!.email ?? '',
-        name: userCredential.user!.displayName ?? '',
-        avatar: userCredential.user!.photoURL ?? '',
-      );
+      if (userCredential.user == null) {
+        return Result.failure(Exception('User not found'));
+      }
+      return Result.success(userCredential.user!.toDomain());
     } catch (e) {
-      // Handle error appropriately, e.g., log it or throw a custom exception
-      rethrow;
+      return Result.failure(Exception(e.toString()));
     }
   }
 }
