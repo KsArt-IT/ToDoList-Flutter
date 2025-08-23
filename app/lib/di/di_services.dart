@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_fui/data/services.dart';
 import 'package:todo_fui/data/services/auth/firebase_auth_service.dart';
@@ -29,36 +29,29 @@ final class DiServices {
 
   Future<void> init() async {
     try {
-      debugPrint('DiServices:: init FirebaseAuth');
+      log('FirebaseAuth:init: start', name: 'DiServices');
       // Инициализировать сервис для работы с Firebase Auth и получить экземпляр FirebaseAuth
       firebaseAuth = await FirebaseAuthService.init();
     } on Object catch (error, stackTrace) {
-      debugPrint('DiServices:: init FirebaseAuth error: $error');
+      log('FirebaseAuth:init: error: $error', name: 'DiServices');
       return;
     }
     try {
-      debugPrint('DiServices:: init GoogleSignIn');
+      log('GoogleSignIn:init: start', name: 'DiServices');
       // Получить экземпляр GoogleSignIn
       googleSignIn = GoogleSignIn.instance;
-      await googleSignIn.initialize(
-          // hostedDomain: 'pro.ksart.todoFui',
-          // clientId: '813153919918-q2dr11si6mchs64qo3te1vp38s7lghas.apps.googleusercontent.com'
-          );
-      // unawaited(googleSignIn.initialize(
-      //     // hostedDomain: 'pro.ksart.todoFui',
-      //     clientId: '813153919918-q2dr11si6mchs64qo3te1vp38s7lghas.apps.googleusercontent.com'
-      //     ));
     } on Object catch (error, stackTrace) {
-      debugPrint('DiServices:: init GoogleSignIn error: $error');
+      log('GoogleSignIn:init: error: $error', name: 'DiServices');
       return;
     }
     try {
-      debugPrint('DiServices:: init StorageService');
+      log('StorageService:init: start', name: 'DiServices');
       // Инициализировать сервис для работы с хранилищем и получить экземпляр GetStorageService
       storageService = await GetStorageService.init();
     } on Object catch (error, stackTrace) {
-      debugPrint('DiServices:: init StorageService error: $error');
+      log('StorageService:init: error: $error', name: 'DiServices');
       return;
     }
+    log('DiServices:init: success', name: 'DiServices');
   }
 }
