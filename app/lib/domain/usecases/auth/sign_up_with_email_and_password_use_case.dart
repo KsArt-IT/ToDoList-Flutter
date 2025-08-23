@@ -1,5 +1,5 @@
 import 'package:todo_fui/domain/entities/result.dart';
-import 'package:todo_fui/domain/entities/user_entity.dart';
+import 'package:todo_fui/domain/entities/user_logged.dart';
 import 'package:todo_fui/domain/repositories/auth/auth_repository.dart';
 
 class SignUpWithEmailAndPasswordUseCase {
@@ -7,13 +7,13 @@ class SignUpWithEmailAndPasswordUseCase {
 
   SignUpWithEmailAndPasswordUseCase(this._authRepository);
 
-  Future<Result<UserEntity>> call({
+  Future<Result<UserLogged>> call({
     required String email,
-    required String password,
+    required String password, //
   }) async {
     return await _authRepository.signUpWithEmailAndPassword(
       email: email,
-      password: password,
+      password: password, //
     );
   }
 }
