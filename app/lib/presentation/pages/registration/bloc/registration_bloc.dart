@@ -49,12 +49,12 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       email: state.email.value,
       password: state.password.value,
     );
-    result.map(
+    await result.map(
       onSuccess: (_) async {
         await _signOutUseCase();
         emit(state.copyWith(status: StateStatus.success));
       },
-      onFailure: (error) {
+      onFailure: (error) async {
         emit(state.copyWith(errorMessage: error.toString(), status: StateStatus.error));
       },
     );
