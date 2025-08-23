@@ -1,9 +1,9 @@
 /// {@template user_entity}
 /// Entity for user.
 /// {@endtemplate}
-final class UserEntity {
+final class UserLogged {
   /// {@macro user_entity}
-  const UserEntity({
+  const UserLogged({
     required this.id,
     required this.email,
     required this.name,

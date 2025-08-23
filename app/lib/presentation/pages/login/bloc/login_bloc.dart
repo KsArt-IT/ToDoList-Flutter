@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_fui/domain/entities/email.dart';
 import 'package:todo_fui/domain/entities/password.dart';
 import 'package:todo_fui/domain/entities/state_status.dart';
-import 'package:todo_fui/domain/entities/user_entity.dart';
+import 'package:todo_fui/domain/entities/user_logged.dart';
 import 'package:todo_fui/domain/usecases/auth_use_cases.dart';
 
 part 'login_event.dart';

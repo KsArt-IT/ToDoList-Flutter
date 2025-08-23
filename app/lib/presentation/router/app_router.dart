@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_fui/domain/entities/user_entity.dart';
+import 'package:todo_fui/domain/entities/user_logged.dart';
 import 'package:todo_fui/presentation/pages.dart';
 import 'package:todo_fui/presentation/pages/login/login_providers.dart';
 import 'package:todo_fui/presentation/pages/registration/registration_providers.dart';
