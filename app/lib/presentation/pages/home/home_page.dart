@@ -31,7 +31,9 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.exit_to_app),
             onPressed: () async {
               await context.read<SignOutUseCase>().call();
-              context.go(AppRouter.initialLocation);
+              if (context.mounted) {
+                context.go(AppRouter.loginLocation);
+              }
             },
           ),
         ],
