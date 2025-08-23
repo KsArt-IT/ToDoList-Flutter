@@ -1,11 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_fui/domain/usecases/auth/check_is_sign_in_use_case.dart';
+import 'package:todo_fui/domain/entities/user_entity.dart';
 import 'package:todo_fui/presentation/pages.dart';
 import 'package:todo_fui/presentation/pages/login/login_providers.dart';
 import 'package:todo_fui/presentation/pages/registration/registration_providers.dart';
 import 'package:todo_fui/presentation/pages/reset_password/reset_password_providers.dart';
+import 'package:todo_fui/presentation/pages/splash/splash_provider.dart';
 
 import 'app_route.dart';
 
@@ -22,22 +24,54 @@ abstract final class AppRouter {
   /// Начальный маршрут приложения.
   static String get initialLocation => AppRoute.home.path;
 
+  /// Начальный маршрут приложения.
+  static String get loginLocation => AppRoute.login.path;
+
   /// Публичные маршруты, которые не требуют авторизации
-  static const _publicRoutes = [AppRoute.login, AppRoute.registration, AppRoute.resetPassword];
+  static const _publicRoutes = [
+    AppRoute.splash,
+    AppRoute.login,
+    AppRoute.registration,
+    AppRoute.resetPassword,
+  ];
+
+  /// Флаг для проверки авторизации
+  static bool _isLogin = false;
+  static bool _isSplash = false;
 
   /// Метод для перенаправления на маршрут авторизации, если пользователь не авторизован
   static Future<String?> _redirect(BuildContext context, GoRouterState state) async {
-    if (_publicRoutes.any((route) => route.path == state.uri.path)) {
+    // Если это первый запуск, то перенаправляем на страницу Splash
+    // if (state.uri.path == AppRoute.splash.path) return null;
+    if (!_isSplash) {
+      _isSplash = true;
+      // Разморозка первого кадра (сплеш)
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        log('RefreshUserInitial', name: 'SplashProviders');
+        WidgetsBinding.instance.allowFirstFrame();
+      });
+      return AppRoute.splash.path;
+    }
+    // Если пользователь авторизован, то не перенаправляем
+    if (state.extra != null && state.extra is UserLogged) {
+      _isLogin = true;
       return null;
     }
-    final checkIsSignInUseCase = context.read<CheckIsSignInUseCase>();
-    final isLoggedIn = await checkIsSignInUseCase();
-    return isLoggedIn ? null : AppRoute.login.path;
+    if (_publicRoutes.any((route) => route.path == state.uri.path)) {
+      // Если маршрут публичный, то сбрасываем флаг авторизации
+      _isLogin = false;
+      return null;
+    }
+    // Если пользователь уже авторизован, то не перенаправляем
+    if (_isLogin) return null;
+    // Если пользователь не авторизован, то перенаправляем на страницу авторизации
+    return AppRoute.login.path;
   }
 
   /// Метод для создания экземпляра GoRouter
   static GoRouter createRouter() {
     return GoRouter(
+      debugLogDiagnostics: true,
       navigatorKey: rootNavigatorKey,
       redirect: _redirect,
       initialLocation: WidgetsBinding.instance.platformDispatcher.defaultRouteName,
@@ -46,7 +80,7 @@ abstract final class AppRouter {
         GoRoute(
           path: AppRoute.splash.path,
           name: AppRoute.splash.name,
-          builder: (context, state) => const SplashPage(),
+          builder: (context, state) => const SplashProviders(),
         ),
         GoRoute(
           path: AppRoute.login.path,
