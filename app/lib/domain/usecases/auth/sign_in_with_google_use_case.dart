@@ -1,5 +1,5 @@
 import 'package:todo_fui/domain/entities/result.dart';
-import 'package:todo_fui/domain/entities/user_entity.dart';
+import 'package:todo_fui/domain/entities/user_logged.dart';
 import 'package:todo_fui/domain/repositories/auth/auth_repository.dart';
 
 class SignInWithGoogleUseCase {
@@ -7,7 +7,7 @@ class SignInWithGoogleUseCase {
 
   SignInWithGoogleUseCase(this._authRepository);
 
-  Future<Result<UserEntity>> call() async {
+  Future<Result<UserLogged>> call() async {
     return await _authRepository.signInWithGoogle();
   }
 }
