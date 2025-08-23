@@ -1,5 +1,5 @@
 import 'package:todo_fui/domain/entities/result.dart';
-import 'package:todo_fui/domain/entities/user_entity.dart';
+import 'package:todo_fui/domain/entities/user_logged.dart';
 
 /// {@template auth_repository}
 /// Репозиторий для работы с Auth.
@@ -9,26 +9,32 @@ abstract interface class AuthRepository {
   Future<bool> checkIsSignIn();
 
   /// Получить текущего пользователя
-  Future<Result<UserEntity>> getCurrentUser();
+  Future<Result<UserLogged>> getCurrentUser();
+
+  /// Обновить текущего пользователя
+  Future<Result<UserLogged>> refreshUser();
 
   /// Войти в систему с помощью email и пароля
-  Future<Result<UserEntity>> signInWithEmailAndPassword({
+  Future<Result<UserLogged>> signInWithEmailAndPassword({
     required String email,
     required String password,
   });
 
   /// Зарегистрироваться с помощью email и пароля
-  Future<Result<UserEntity>> signUpWithEmailAndPassword({
+  Future<Result<UserLogged>> signUpWithEmailAndPassword({
     required String email,
     required String password,
   });
 
   /// Войти в систему с помощью Google
-  Future<Result<UserEntity>> signInWithGoogle();
+  Future<Result<UserLogged>> signInWithGoogle();
+
+  /// Отправить email для сброса пароля
+  Future<Result<void>> sendPasswordResetEmail(String email);
 
   /// Выйти из системы
   Future<Result<void>> signOut();
 
-  /// Отправить email для сброса пароля
-  Future<Result<void>> sendPasswordResetEmail(String email);
+  /// Удалить аккаунт
+  Future<Result<void>> deleteAccount();
 }
