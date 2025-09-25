@@ -56,7 +56,7 @@ class _PasswordInputState extends State<PasswordInput> {
         icon: const Icon(Icons.lock),
         suffixIcon: GestureDetector(
           onTap: _toggle,
-          behavior: HitTestBehavior.translucent,
+          behavior: HitTestBehavior.opaque,
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Icon(_obscure ? Icons.remove_red_eye_outlined : Icons.emergency),
