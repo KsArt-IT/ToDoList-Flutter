@@ -206,4 +206,92 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get overdue => 'Просроченные';
+
+  @override
+  String get exception => '----------------------------------------------';
+
+  @override
+  String get exceptionGeneral => 'An error occurred, please try again later.';
+
+  @override
+  String get exceptionDecode => 'Could not decode entity';
+
+  @override
+  String exceptionDecodeEntity(String entityName) {
+    return 'Could not decode entity: $entityName';
+  }
+
+  @override
+  String get exceptionFirebaseAuthEmailExists =>
+      'The provided email is already in use';
+
+  @override
+  String get exceptionFirebaseAuthInvalidCredentials =>
+      'Invalid login credentials';
+
+  @override
+  String get exceptionFirebaseAuthInternalError => 'An internal error occurred';
+
+  @override
+  String get exceptionFirebaseAuthInvalidEmail =>
+      'The provided email is invalid';
+
+  @override
+  String get exceptionFirebaseAuthInvalidPassword =>
+      'The provided password is invalid';
+
+  @override
+  String get exceptionFirebaseAuthInvalidPhone =>
+      'The provided phone number is invalid';
+
+  @override
+  String get exceptionFirebaseAuthPhoneExists =>
+      'The provided phone number is already in use';
+
+  @override
+  String get exceptionFirebaseAuthTooManyRequests =>
+      'The number of requests exceeds the maximum allowed';
+
+  @override
+  String get exceptionFirebaseAuthUserNotFound => 'No such user exists';
+
+  @override
+  String get exceptionFirebaseAuthUserDisabled => 'User is disabled';
+
+  @override
+  String get exceptionFirebaseAuthInvalidVerificationCode =>
+      'The code entered is invalid';
+
+  @override
+  String get exceptionFirebaseAuthRequiresRecentLogin =>
+      'Additional authentication required';
+
+  @override
+  String get exceptionFirebaseAuthUnknown => 'An unknown auth error occurred';
+
+  @override
+  String exceptionFirestoreEntityNotFound(String entityName) {
+    return 'The requested entity was not found';
+  }
+
+  @override
+  String get exceptionFirestoreEntityNotFoundGeneral =>
+      'The requested entity was not found';
+
+  @override
+  String get exceptionHttpGeneral =>
+      'A network error occurred during the request';
+
+  @override
+  String get exceptionHttpNotFound => 'The requested resource was not found';
+
+  @override
+  String get exceptionHttpForbidden =>
+      'You don\'t have permissions to perform this action';
+
+  @override
+  String get exceptionHttpUnauthorized => 'This request was not authorized';
+
+  @override
+  String get n => '---';
 }

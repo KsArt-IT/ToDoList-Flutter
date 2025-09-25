@@ -64,5 +64,48 @@
   "active": "Активні",
   "critical": "Критичні",
   "completed": "Виконано",
-  "overdue": "Прострочені"
+  "overdue": "Прострочені",
+
+  "exception": "----------------------------------------------",
+  "exceptionGeneral": "An error occurred, please try again later.",
+  "exceptionDecode": "Could not decode entity",
+  "exceptionDecodeEntity": "Could not decode entity: {entityName}",
+  "@exceptionDecodeEntity": {
+    "placeholders": {
+      "entityName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "exceptionFirebaseAuthEmailExists": "The provided email is already in use",
+  "exceptionFirebaseAuthInvalidCredentials": "Invalid login credentials",
+  "exceptionFirebaseAuthInternalError": "An internal error occurred",
+  "exceptionFirebaseAuthInvalidEmail": "The provided email is invalid",
+  "exceptionFirebaseAuthInvalidPassword": "The provided password is invalid",
+  "exceptionFirebaseAuthInvalidPhone": "The provided phone number is invalid",
+  "exceptionFirebaseAuthPhoneExists": "The provided phone number is already in use",
+  "exceptionFirebaseAuthTooManyRequests": "The number of requests exceeds the maximum allowed",
+  "exceptionFirebaseAuthUserNotFound": "No such user exists",
+  "exceptionFirebaseAuthUserDisabled": "User is disabled",
+  "exceptionFirebaseAuthInvalidVerificationCode": "The code entered is invalid",
+  "exceptionFirebaseAuthRequiresRecentLogin": "Additional authentication required",
+  "exceptionFirebaseAuthUnknown": "An unknown auth error occurred",
+
+  "exceptionFirestoreEntityNotFound": "The requested {entityName} was not found",
+  "@exceptionFirestoreEntityNotFound": {
+    "placeholders": {
+      "entityName": {
+        "type": "String"
+      }
+    }
+  },
+  "exceptionFirestoreEntityNotFound": "The requested entity was not found",
+
+  "exceptionHttpGeneral": "A network error occurred during the request",
+  "exceptionHttpNotFound": "The requested resource was not found",
+  "exceptionHttpForbidden": "You don't have permissions to perform this action",
+  "exceptionHttpUnauthorized": "This request was not authorized",
+
+  "n": "-"
 }

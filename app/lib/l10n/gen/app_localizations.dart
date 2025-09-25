@@ -489,6 +489,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Overdue'**
   String get overdue;
+
+  /// No description provided for @exception.
+  ///
+  /// In en, this message translates to:
+  /// **'----------------------------------------------'**
+  String get exception;
+
+  /// No description provided for @exceptionGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred, please try again later.'**
+  String get exceptionGeneral;
+
+  /// No description provided for @exceptionDecode.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not decode entity'**
+  String get exceptionDecode;
+
+  /// No description provided for @exceptionDecodeEntity.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not decode entity: {entityName}'**
+  String exceptionDecodeEntity(String entityName);
+
+  /// No description provided for @exceptionFirebaseAuthEmailExists.
+  ///
+  /// In en, this message translates to:
+  /// **'The provided email is already in use'**
+  String get exceptionFirebaseAuthEmailExists;
+
+  /// No description provided for @exceptionFirebaseAuthInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid login credentials'**
+  String get exceptionFirebaseAuthInvalidCredentials;
+
+  /// No description provided for @exceptionFirebaseAuthInternalError.
+  ///
+  /// In en, this message translates to:
+  /// **'An internal error occurred'**
+  String get exceptionFirebaseAuthInternalError;
+
+  /// No description provided for @exceptionFirebaseAuthInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'The provided email is invalid'**
+  String get exceptionFirebaseAuthInvalidEmail;
+
+  /// No description provided for @exceptionFirebaseAuthInvalidPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'The provided password is invalid'**
+  String get exceptionFirebaseAuthInvalidPassword;
+
+  /// No description provided for @exceptionFirebaseAuthInvalidPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'The provided phone number is invalid'**
+  String get exceptionFirebaseAuthInvalidPhone;
+
+  /// No description provided for @exceptionFirebaseAuthPhoneExists.
+  ///
+  /// In en, this message translates to:
+  /// **'The provided phone number is already in use'**
+  String get exceptionFirebaseAuthPhoneExists;
+
+  /// No description provided for @exceptionFirebaseAuthTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'The number of requests exceeds the maximum allowed'**
+  String get exceptionFirebaseAuthTooManyRequests;
+
+  /// No description provided for @exceptionFirebaseAuthUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No such user exists'**
+  String get exceptionFirebaseAuthUserNotFound;
+
+  /// No description provided for @exceptionFirebaseAuthUserDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'User is disabled'**
+  String get exceptionFirebaseAuthUserDisabled;
+
+  /// No description provided for @exceptionFirebaseAuthInvalidVerificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'The code entered is invalid'**
+  String get exceptionFirebaseAuthInvalidVerificationCode;
+
+  /// No description provided for @exceptionFirebaseAuthRequiresRecentLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional authentication required'**
+  String get exceptionFirebaseAuthRequiresRecentLogin;
+
+  /// No description provided for @exceptionFirebaseAuthUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'An unknown auth error occurred'**
+  String get exceptionFirebaseAuthUnknown;
+
+  /// No description provided for @exceptionFirestoreEntityNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'The requested {entityName} was not found'**
+  String exceptionFirestoreEntityNotFound(String entityName);
+
+  /// No description provided for @exceptionFirestoreEntityNotFoundGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'The requested entity was not found'**
+  String get exceptionFirestoreEntityNotFoundGeneral;
+
+  /// No description provided for @exceptionHttpGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'A network error occurred during the request'**
+  String get exceptionHttpGeneral;
+
+  /// No description provided for @exceptionHttpNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'The requested resource was not found'**
+  String get exceptionHttpNotFound;
+
+  /// No description provided for @exceptionHttpForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permissions to perform this action'**
+  String get exceptionHttpForbidden;
+
+  /// No description provided for @exceptionHttpUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'This request was not authorized'**
+  String get exceptionHttpUnauthorized;
+
+  /// No description provided for @n.
+  ///
+  /// In en, this message translates to:
+  /// **'---'**
+  String get n;
 }
 
 class _AppLocalizationsDelegate
