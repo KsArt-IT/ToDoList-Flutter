@@ -56,7 +56,7 @@ class FirestoreDataService {
     );
 
     final parts = userId != null
-        ? '/${CollectionsType.profile.path}/$userId/$collectionPath'.split('/')
+        ? '${CollectionsType.profile.path}/$userId/$collectionPath'.split('/')
         : collectionPath.split('/');
 
     assert(
