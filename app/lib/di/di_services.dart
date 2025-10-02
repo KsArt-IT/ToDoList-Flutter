@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_fui/data/services.dart';
@@ -21,6 +22,9 @@ final class DiServices {
   /// Сервис для работы с Firebase Auth
   late final FirebaseAuth firebaseAuth;
 
+  /// Сервис для работы с Firebase Database
+  late final FirebaseFirestore firestore;
+
   /// Сервис для работы с GoogleSignIn
   late final GoogleSignIn googleSignIn;
 
@@ -34,6 +38,14 @@ final class DiServices {
       firebaseAuth = await FirebaseAuthService.init();
     } on Object catch (error, stackTrace) {
       log('FirebaseAuth:init: error: $error', name: 'DiServices');
+      return;
+    }
+    try {
+      log('FirebaseFirestore:init: start', name: 'DiServices');
+      // Firebase Database
+      firestore = FirebaseFirestore.instance;
+    } on Object catch (error, stackTrace) {
+      log('FirebaseFirestore:init: error: $error', name: 'DiServices');
       return;
     }
     try {
