@@ -13,11 +13,18 @@ class FirestoreDataService {
 
   Future<FirestoreList<T>> getAll<T>(
     CollectionsType type, {
+    String? userId,
+  }) => _collection(type.path, userId).get().then(
+    (snapshot) => _decodeCollectionSnapshot<T>(snapshot, type.decode),
+  );
+
+  Future<FirestoreList<T>> getAllWithParams<T>(
+    CollectionsType type, {
     String? equalTo,
     String? userId,
   }) => _collection(type.path, userId)
       .where(type.whereBy, isEqualTo: equalTo)
-      .orderBy(type.orderBy)
+      .orderBy(type.orderBy, descending: type.descending)
       .get()
       .then(
         (snapshot) => _decodeCollectionSnapshot<T>(snapshot, type.decode),
