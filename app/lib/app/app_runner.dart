@@ -55,16 +55,15 @@ class AppRunner {
               _initTimeout,
               onTimeout: () {
                 return Future.error(
-                  TimeoutException(
-                    'Превышено время ожидания инициализации зависимостей',
-                  ),
+                  TimeoutException('Превышено время ожидания инициализации зависимостей'),
                 );
               },
             );
           },
         ),
       );
-      await _onAppLoaded();
+      // Разморозка первого кадра, отложим на загрузку сплеш и запустим в AppRouter
+      // await _onAppLoaded();
     } on Object catch (e, stackTrace) {
       await _onAppLoaded();
 
